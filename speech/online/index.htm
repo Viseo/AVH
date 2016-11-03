@@ -66,10 +66,12 @@
 
     var au;
     var hf;
+    var url;
+
     function createDownloadLink() {
       "use strict";
       recorder && recorder.exportWAV(function(blob) {
-        var url = URL.createObjectURL(blob);
+        url = URL.createObjectURL(blob);
         var li = document.createElement('li');
         au = document.createElement('audio');
         hf = document.createElement('a');
@@ -107,14 +109,15 @@
 
     localStorage.setItem("audfile",au);
     localStorage.setItem("hfaudfile",hf);
+    localStorage.setItem("urlaudfile",url);
 
   </script>
 
 
 
-  <a href="http://127.0.0.1:8081/load"> recognize renaulttest.wav (fichier donne en dur)</a>
+  <a href="http://127.0.0.1:8081/load"> go to /load (fichier en dur)</a>
   <br>
-  <a href="http://127.0.0.1:8081/loadtest"> recognize renaulttest.wav (fichier donne en dur)</a>
+  <a href="http://127.0.0.1:8081/loadtest"> go to /loadtest</a>
 
 
   </body>
