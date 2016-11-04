@@ -29,7 +29,7 @@ function prepareRequest (inputFile, callback) {
     var payload = {
       config: {
         encoding: 'LINEAR16',
-        sampleRate: 16000
+        sampleRate: 44100
       },
       audio: {
         content: encoded

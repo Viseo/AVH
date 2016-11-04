@@ -1,6 +1,6 @@
 var express = require('express');
+var BinaryServer = require('binaryjs').BinaryServer;
 var app = express();
-
 
 
 
@@ -113,11 +113,6 @@ app.get('/loadtest', function (req, res) {
     var async = require('async');
     var fs = require('fs');
 
-    if (typeof localStorage === "undefined" || localStorage === null) {
-        var LocalStorage = require('node-localstorage').LocalStorage;
-        localStorage = new LocalStorage('./scratch');
-    }
-
 
     var testvar = localStorage.getItem('testvar');
     var auvar = localStorage.getItem('auvar');
@@ -140,15 +135,15 @@ app.get('/loadtest', function (req, res) {
     }
 
     function prepareRequest (inputFile, callback) {
-//        fs.readFile(inputFile, function (err, audioFile) {
-//            if (err) {
-//                return callback(err);
-//            }
+        fs.readFile(inputFile, function (err, audioFile) {
+            if (err) {
+                return callback(err);
+            }
 
 
             console.log('Got audio file!');
             console.log(testvar);
-            var encoded = new Buffer('something').toString('base64');
+            var encoded = new Buffer(audioFile).toString('base64');
             var payload = {
                 config: {
                     encoding: 'LINEAR16',
@@ -160,7 +155,7 @@ app.get('/loadtest', function (req, res) {
                 }
             };
             return callback(null, payload);
-//        });
+        });
     }
 
     function main (inputFile, callback) {
@@ -197,8 +192,10 @@ app.get('/loadtest', function (req, res) {
             console.log('Usage: node recognize <inputFile>');
             process.exit();
         }
+        var dest = fs.createWriteStream('file.wav')
+        req.pipe(dest)
         var inputFile = "file6.wav"; // ici
-        main(inputFile, console.log);
+        main(dest, console.log);
     }
 
 })
@@ -207,6 +204,8 @@ app.get('/loadtest', function (req, res) {
 var server = app.listen(8081, function () {
   var host = server.address().address
   var port = server.address().port
+
+
 
   console.log("Example app listening at http://%s:%s", host, port)
 })
