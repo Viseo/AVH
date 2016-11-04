@@ -192,8 +192,6 @@ app.get('/loadtest', function (req, res) {
             console.log('Usage: node recognize <inputFile>');
             process.exit();
         }
-        var dest = fs.createWriteStream('file.wav')
-        req.pipe(dest)
         var inputFile = "file6.wav"; // ici
         main(dest, console.log);
     }

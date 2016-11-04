@@ -4,7 +4,6 @@ var fs = require('fs');
 var wav = require('wav');
 var google = require('googleapis');
 var async = require('async');
-
 var speech = google.speech('v1beta1').speech;
 
 
@@ -24,6 +23,7 @@ function getAuthClient (callback) {
 }
 
 function prepareRequest (inputFile, callback) {
+  inputFile.volume=5;
   fs.readFile(inputFile, function (err, audioFile) {
     if (err) {
       return callback(err);
@@ -64,9 +64,12 @@ function main (inputFile, callback) {
         if (err) {
           return cb(err);
         }
+        console.log("test 1");
         console.log(JSON.stringify(result, null, 2));
-        console.log('result:', JSON.stringify(result, null, 2));
-
+        console.log("test 2");
+        console.log(JSON.stringify(result, "transcript", 2));
+        console.log("test 3");
+        console.log(JSON.stringify(result, null, 5));
         cb(null, result);
       });
     }
